@@ -1,27 +1,42 @@
 document.addEventListener("DOMContentLoaded", function()
 {
-    const button = document.getElementById('btn');
+   const form = document.getElementById('getform');
+
+   form.addEventListener('submit', gethero);
 
 
-    button.addEventListener('click', loadtext);
-
-    function loadtext(){
-        console.log('button clicked');
-        //xhr object
+    function gethero(e){
+        e.preventDefault();
+ 
+        console.log('submitted');
+        
+        const input = document.getElementById('hero').value;
+        //var param = "superheroe="+ heroo;
         var xhr = new XMLHttpRequest();
-        //open - type url async
+
+
+
+        ///new code
+        
+        var url = "superheroes.php?query="+ encodeURIComponent(input);
+        ///
 
         console.log(xhr);
-        xhr.open('GET', 'superheroes.php', true);
+        //changed this line -below
+        xhr.open('GET', url, true);
+        xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded' );
+
+
         xhr.onload = function(){
             if(this.status == 200){
-               alert(this.responseText);
-               console.log(this.responseText);
+               result.innerHTML = this.responseText;
+             console.log(result.innerHTML);
             }
         }//sends the request 
         xhr.onerror = function(){
             console.log('request error ');
         }
+       //changed this as welll 'superhero=' + encodeURIComponent(input)
         xhr.send();
 
     }

@@ -63,10 +63,69 @@ $superheroes = [
   ], 
 ];
 
-?>
+//echo 'waiting.';
 
-<ul>
-<?php foreach ($superheroes as $superhero): ?>
-  <li><?= $superhero['alias']; ?></li>
-<?php endforeach; ?>
-</ul>
+
+
+/*function locateHero($hero,$superheroes){
+      foreach($superheroes as $superhero)
+      {
+        if(trim(strcasecmp($hero, $superhero['name'])===0) || trim(strcasecmp($hero, $superhero['alias'])==0))
+        {
+            return $superhero;
+        }
+      }
+      return "";
+
+}*/
+
+if($_SERVER['REQUEST_METHOD']==='GET'){
+
+   //$hero = filter_var($_GET["query"], FILTER_SANITIZE_STRING);
+//$_SERVER['REQUEST_METHOD']==='POST'&&
+//isset($_POST['query'])
+    $hero = $_GET["query"];//changed "superhero" to'query'//>> &trim($_POST['query']?? '')
+  //  $ans = locateHero($hero, $superheroes);
+  $hero = htmlspecialchars($hero);
+   
+
+
+    $result = "";
+    foreach($superheroes as $superhero)
+      {
+
+
+        if ($hero ==="" ){
+           // echo "Superhero not found\n";
+            $result = "<ul class = 'result'>";
+            foreach($superheroes as $superhero){
+                $result .= "<li>{$superhero['alias']} </li>";
+            }
+            $result .= "</ul>";
+          //  break;
+        }
+
+        else{
+           if( trim(strcasecmp($hero, $superhero['name'])===0) || trim(strcasecmp($hero, $superhero['alias'])==0)){
+            $result = "<h3 class = 'alias'> {$superhero['alias']} </h3> <h4 class = 'name'> A.K.A {$superhero['name']}</h4> <p>{$superhero['biography']}</p>";
+           break;
+           }
+
+                    else{
+                        $result = "<p class = 'notfound'> SUPERHERO NOT FOUND </p>";
+                       // break;
+                    }
+        }
+         
+         
+
+    }
+
+    //echo $result;
+}
+ //echo"mi";
+ echo $result; //>> moved to above yellow
+    
+    
+
+?>
